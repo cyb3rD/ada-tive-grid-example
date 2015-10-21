@@ -1,11 +1,11 @@
 About:
-This is my template for Sample online shop.
-Next stage of my learning
-Here I'm using Jade template engine, Sass & Bem-naming
+This is my boilerplate for html5 using Jade, Sass, BEM-naming.
 
 Install instructions:
 
-1. git clone https://github.com/cyb3rD/LS_Online-Shop.git OnlineShop
-2. cd OnlineShop
+1. git clone  https://github.com/cyb3rD/jade-sass-template myBoilerplate
+2. cd myBoilerplate
 3. npm i (or you can link existing modules)
 4. bower i
+
+And start your project...
