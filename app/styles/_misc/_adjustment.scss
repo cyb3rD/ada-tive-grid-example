@@ -1,0 +1,93 @@
+/* --------- adjustment --------- */
+
+$container-width    : 1170px;
+$body-font          : PTSansRegular;
+
+html {
+	width:100%;
+	height:100%;
+	font-size: 100.01%;
+}
+
+body {
+	font: 100%/1.5em $body-font;
+    -webkit-font-smoothing: antialiased;
+	width:100%;
+	height:100%;
+    background-color: #f5f5f5;
+}
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    min-width: $container-width;
+    height: auto!important;
+}
+/* Footer to bottom*/
+.wrapper:after {
+    content: "";
+    display:block;
+}
+/* Main classes */
+.container {
+    width: $container-width;
+    margin: 0 auto;
+    background: #d2d2d2;
+}
+
+/* clearfix */
+.clearfix {
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+}
+.clearfix:after {
+  clear:  both;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+	list-style: none outside none;
+
+	li {
+        padding: 0;
+        left: 0;
+    }
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+a {
+  outline:none !important;
+}
+button{
+  outline:none !important;
+}
+
+-webkit-input:focus{
+  outline:none;
+  border:1px solid #00a650;
+} 
+-moz-input:focus{
+  outline:none;
+  border:1px solid #00a650;
+} 
+-ms-input:focus{
+  outline:none;
+  border:1px solid #00a650;
+} 
+-o-input:focus{
+  outline:none;
+  border:1px solid #00a650;
+} 
+input:focus{
+  outline:none;
+  border:1px solid #00a650;
+} 

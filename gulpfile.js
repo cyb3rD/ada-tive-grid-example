@@ -2,7 +2,15 @@ var gulp = require("gulp"),
 	browserSync = require ("browser-sync"),
 	compass = require("gulp-compass"),
 	jade = require ("gulp-jade"),
-	plumber = require("gulp-plumber");
+	plumber = require("gulp-plumber"),
+	autoprefixer = require ("gulp-autoprefixer"),
+	del = require("del"),
+	imagemin = require("gulp-imagemin"),
+	filter = require("gulp-filter"),
+	useref = require("gulp-useref"),
+	gulpif = require("gulp-if"),
+	uglify = require("gulp-uglify"),
+	minifyCss = require("gulp-minify-css");
 
 // paths & settings
 var paths = {
@@ -17,22 +25,27 @@ var paths = {
 	},
 
 	scss : {
-		location	: 'styles/**/*.scss',
-		entryPoint	: 'css/main.css'
+		location	: 'app/styles/**/*.scss',
+		entryPoint	: 'app/css/main.css'
 	},
 
 	compass : {
 		configFile	: 'config.rb',
-		cssFolder	: 'css',
-		scssFolder	: 'styles',
-		imgFolder	: 'img'
+		cssFolder	: 'app/css',
+		scssFolder	: 'app/styles',
+		imgFolder	: 'app/img'
 	},
 
 	jade: {
 		location	: 'app/layout/**/*.jade',
-		compiled	: 'app/layout/*.jade',
+		compiled	: 'app/layout/_pages/*.jade',
 		destination : 'app'
-		}
+		},
+
+	dist: {
+		html_dist	: './dist',
+		css_dist	: './dist/css'
+	}
 }
 
 // JADE
@@ -49,6 +62,8 @@ gulp.task('jade', function() {
 gulp.task('server', function () {
 	browserSync.init({
 		port : paths.browserSync.serverPort,
+		// Tunnel for access from remote PC
+		// tunnel: 'samplestore',
 		server: {
 			baseDir: paths.browserSync.baseDir
 		}
@@ -70,9 +85,35 @@ gulp.task('compass', function() {
 // Watch (Jade + BrowserSync reload
 gulp.task('watch', function () {
 	gulp.watch(paths.jade.location, ['jade']);
+	gulp.watch(paths.scss.location, ['compass']);
 
 	gulp.watch (paths.watchDirs.watchPaths).on('change', browserSync.reload);
 });
 
+
+// AutoPrefixer
+gulp.task('autoprefixer', function() {
+	gulp.src(paths.scss.entryPoint)
+		.pipe(plumber())
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions'],
+			cascade: false
+		}))
+		.pipe(gulp.dest(paths.scss.entryPoint));
+});
+
+gulp.task('useref', function() {
+	return gulp.src('./app/*.html')
+		.pipe(useref())
+		.pipe(gulpif('*.js', uglify()))
+		.pipe(gulpif('*.css', minifyCss({compatibility: 'ie8'})))
+		.pipe(gulp.dest('dist'));
+});
+
+gulp.task('cleandist', function() {
+	return del(['./dist/**', '!./dist/']);
+})
+
 // Default task
 gulp.task('default', ['jade', 'compass', 'server', 'watch']);
+

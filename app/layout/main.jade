@@ -1,0 +1,39 @@
+doctype html
+html(lang="Ru-ru")
+    head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(meta name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="")
+    meta(name="keywords" content="")
+    meta(name="author" content="")
+    title
+        block Title
+
+    // build:css css/combined.css
+    // Bower CSS
+    link(rel="stylesheet" href="bower/normalize-css/normalize.css")
+    // Dev CSS
+    link(rel="stylesheet" href="css/main.css")
+    // endbuild
+
+    // Fonts & favicon
+    link(rel="stylesheet" href="fonts/opensans/opensans.css")
+    link(rel="stylesheet" href="fonts/fontawesome/font-awesome.min.css")
+    link(rel="stylesheet" href="fonts/ptsans/PTS75F_stylesheet.css")
+    link(rel="stylesheet" href="fonts/ptsans/PTS55F_stylesheet.css")
+
+    link(rel="icon" type="image/png" href="img/icons/favicon-32x32.png")
+
+
+
+    // build:js js/modernizr.min.js
+    script(type="text/javascript" src="bower/modernizr/modernizr.js")
+    // endbuild
+    body
+        .wrapper
+            block content-area
+
+        // build:js js//jquery.min
+        script(type="text/javascript" src="bower/jquery/jquery.js")
+        // endbuild
