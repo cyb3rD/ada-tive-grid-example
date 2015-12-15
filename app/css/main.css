@@ -98,8 +98,6 @@ input:focus {
 }
 
 .container .cols {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   float: left;
   margin: 0 0 1em;

@@ -6,11 +6,14 @@ var gulp = require("gulp"),
 	autoprefixer = require ("gulp-autoprefixer"),
 	del = require("del"),
 	imagemin = require("gulp-imagemin"),
+	sass = require('gulp-sass'),
 	filter = require("gulp-filter"),
 	useref = require("gulp-useref"),
 	gulpif = require("gulp-if"),
 	uglify = require("gulp-uglify"),
-	minifyCss = require("gulp-minify-css");
+	minifyCss = require("gulp-minify-css"),
+	sourcemaps = require("gulp-sourcemaps"),
+	size = require("gulp-size");
 
 // paths & settings
 var paths = {
@@ -110,10 +113,55 @@ gulp.task('useref', function() {
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('cleandist', function() {
+gulp.task('clean-dist', function() {
 	return del(['./dist/**', '!./dist/']);
 })
 
+// Перенос шрифтов
+gulp.task("fonts", function() {
+	gulp.src("./app/fonts/*")
+		.pipe(filter(["*.eot","*.svg","*.ttf","*.woff","*.woff2"]))
+		.pipe(gulp.dest("./dist/fonts/"))
+});
+
+// Перенос картинок
+gulp.task("images", function () {
+	return gulp.src("./app/img/**/*")
+		.pipe(imagemin({
+			progressive: true,
+			interlaced: true
+		}))
+		.pipe(gulp.dest("./dist/img"));
+});
+
+// Перенос остальных файлов (favicon и т.д.)
+gulp.task("extras", function () {
+	return gulp.src(["./app/*.*", "!./app/*.html"])
+		.pipe(gulp.dest("./dist"));
+});
+
+// Вывод размера папки APP
+gulp.task("size-app", function () {
+	return gulp.src("app/**/*").pipe(size({title: "APP size: "}));
+});
+
+// Вывод размера папки APP
+gulp.task("size-app", function () {
+	return gulp.src("app/**/*").pipe(size({title: "APP size: "}));
+});
+
+// Сборка и вывод размера папки DIST
+gulp.task("dist", ["useref", "images", "fonts", "extras", "size-app"], function () {
+	return gulp.src("dist/**/*").pipe(size({title: "DIST size: "}));
+});
+
+
 // Default task
 gulp.task('default', ['jade', 'compass', 'server', 'watch']);
+
+
+// Собираем папку DIST - только когда файлы готовы
+gulp.task("build", ["clean-dist"], function () {
+	gulp.start("dist");
+});
 
